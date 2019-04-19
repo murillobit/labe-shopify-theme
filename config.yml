@@ -1,0 +1,9 @@
+development:
+  password: ${DEV_PASSWD}
+  theme_id: ${DEV_THEMEID}
+  store: ${DEV_SHOP}
+production:
+  password: ${PRD_PASSWD}
+  theme_id: ${PRD_THEMEID}
+  store: ${PRD_SHOP}
+  timeout: ${PRD_TIMEOUT}
