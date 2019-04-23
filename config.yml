@@ -2,8 +2,12 @@ development:
   password: ${DEV_PASSWD}
   theme_id: ${DEV_THEMEID}
   store: ${DEV_SHOP}
+  ignore_files:
+    - config/settings_data.json
 production:
   password: ${PRD_PASSWD}
   theme_id: ${PRD_THEMEID}
   store: ${PRD_SHOP}
   timeout: ${PRD_TIMEOUT}
+  ignore_files:
+  - config/settings_data.json
