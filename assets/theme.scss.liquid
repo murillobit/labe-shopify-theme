@@ -3943,7 +3943,7 @@ button.mfp-arrow {
   width: 100%;
 
   @if $passwordPageUseBgImage {
-    background-image: url({{ "password-page-background.jpg" | asset_url }});
+    background-image: url({{ "bg-psswd.png" | asset_url }});
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -4026,18 +4026,18 @@ button.mfp-arrow {
   font-family: $headerFontStack;
   font-weight: $headerFontWeight;
   font-style: $headerFontStyle;
-  font-size: em(42px);
+  font-size: em(36px);
   line-height: 1.25;
   text-transform: none;
   letter-spacing: 0;
   text-rendering: optimizeLegibility;
 
   @include at-query($min, $postSmall) {
-    font-size: em(60px);
+    font-size: em(44px);
   }
 
   @include at-query($min, $large) {
-    font-size: em(64px);
+    font-size: em(56px);
   }
 }
 
