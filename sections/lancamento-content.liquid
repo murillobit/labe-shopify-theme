@@ -1,0 +1,87 @@
+<div class="password-page__main__inner" data-section-id="{{ section.id }}" data-section-type="password-content">
+
+  {% comment %}
+    Opening soon text
+  {% endcomment %}
+  {% unless page.title == blank %}
+    <h2 class="password-page__hero">{{ page.title | escape }}</h2>
+  {% endunless %}
+
+  {% comment %}
+    Password message which you can edit on http://www.shopify.com/admin/online_store/preferences
+  {% endcomment %}
+
+  {% unless page.content == blank %}
+    <div class="password-page__message">
+      {{ page.content }}
+    </div>
+    <hr class="hr password-page__hr">
+  {% endunless %}
+
+  {% comment %}
+    Signup form
+  {% endcomment %}
+
+
+
+    <div class="password-page__signup-form">
+      {% form 'contact' %}
+        {{ form.errors | default_errors }}
+        {% if form.posted_successfully? %}
+          <p class="note form-success">
+            {{ 'contact.form.post_success' | t }}
+          </p>
+        {% else %}
+          <div class="grid grid--small">
+            <div class="grid__item large--one-half">
+              <label for="ContactFormName" class="hidden-label">{{ 'contact.form.name' | t }}</label>
+              <input type="text" id="ContactFormName" class="input-full" name="contact[name]" placeholder="{{ 'contact.form.name' | t }}" autocapitalize="words" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}">
+            </div>
+
+            <div class="grid__item large--one-half">
+              <label for="ContactFormEmail" class="hidden-label">{{ 'contact.form.email' | t }}</label>
+              <input type="email" id="ContactFormEmail" class="input-full" name="contact[email]" placeholder="{{ 'contact.form.email' | t }}" autocorrect="off" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}">
+            </div>
+
+            <div class="grid__item">
+              <input type="submit" class="btn right" value="{{ 'contact.form.send' | t }}">
+            </div>
+
+          </div>
+
+          
+          
+        {% endif %}
+      {% endform %}
+    </div>
+
+
+  {% comment %}
+    Share homepage URL
+    Shared text is from the store meta description
+  {% endcomment %}
+
+
+</div>
+
+
+
+{% schema %}
+{
+  "name": {
+    "de": "Inhalt",
+    "en": "Content",
+    "es": "Contenido",
+    "fr": "Contenu",
+    "it": "Contenuto",
+    "ja": "コンテンツ",
+    "nl": "Inhoud",
+    "pt-BR": "Conteúdo",
+    "zh-CN": "内容",
+    "zh-TW": "內容"
+  },
+  "class": "password-page__main",
+  "settings": [
+  ]
+}
+{% endschema %}
