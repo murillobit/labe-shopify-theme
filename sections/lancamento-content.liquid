@@ -5,6 +5,7 @@
   {% endcomment %}
   {% unless page.title == blank %}
     <h2 class="password-page__hero">{{ page.title | escape }}</h2>
+    <hr class="hr password-page__hr">
   {% endunless %}
 
   {% comment %}
@@ -15,7 +16,6 @@
     <div class="password-page__message">
       {{ page.content }}
     </div>
-    <hr class="hr password-page__hr">
   {% endunless %}
 
   {% comment %}
@@ -25,26 +25,27 @@
 
 
     <div class="password-page__signup-form">
-      {% form 'contact' %}
+      {% form 'customer' %}
         {{ form.errors | default_errors }}
         {% if form.posted_successfully? %}
           <p class="note form-success">
-            {{ 'contact.form.post_success' | t }}
+            {{ 'lancamento.form.post_success' | t }}
           </p>
         {% else %}
+          <input type="hidden" name="contact[tags]" value="prospect, lancamento">
           <div class="grid grid--small">
             <div class="grid__item large--one-half">
-              <label for="ContactFormName" class="hidden-label">{{ 'contact.form.name' | t }}</label>
-              <input type="text" id="ContactFormName" class="input-full" name="contact[name]" placeholder="{{ 'contact.form.name' | t }}" autocapitalize="words" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}">
+              <label for="ContactFormName" class="hidden-label">{{ 'lancamento.form.name' | t }}</label>
+              <input type="text" id="ContactFormName" class="input-full" name="contact[name]" placeholder="{{ 'lancamento.form.name' | t }}" autocapitalize="words" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}">
             </div>
 
             <div class="grid__item large--one-half">
-              <label for="ContactFormEmail" class="hidden-label">{{ 'contact.form.email' | t }}</label>
-              <input type="email" id="ContactFormEmail" class="input-full" name="contact[email]" placeholder="{{ 'contact.form.email' | t }}" autocorrect="off" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}">
+              <label for="ContactFormEmail" class="hidden-label">{{ 'lancamento.form.email' | t }}</label>
+              <input type="email" id="ContactFormEmail" class="input-full" name="contact[email]" placeholder="{{ 'lancamento.form.email' | t }}" autocorrect="off" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}">
             </div>
 
-            <div class="grid__item">
-              <input type="submit" class="btn right" value="{{ 'contact.form.send' | t }}">
+            <div class="grid__item actions">
+              <input type="submit" class="btn center" value="{{ 'lancamento.form.send' | t }}">
             </div>
 
           </div>

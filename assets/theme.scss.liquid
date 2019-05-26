@@ -4136,6 +4136,42 @@ button.mfp-arrow {
   font-size: 95%;
 }
 
+.template-password.lancamento {
+
+  .password-page__wrapper {
+    background-image: url({{ "bg-lancamento.png" | asset_url }});
+  }
+
+  .password-page__message {
+    font-style: normal;
+    margin-bottom: 50px;
+  }
+
+  .password-page__message, .password-page__login-form, .password-page__signup-form {
+    max-width: 550px;
+  }
+
+  .password-page__signup-form {
+
+    padding: 0;
+    
+    .actions {
+      .btn {
+        width: 100%;
+      }
+    }
+
+    input, .btn {
+      font-size: 1em;
+      font-style: normal;
+    }
+
+    .grid__item:not(:last-child) {
+      margin-bottom: 10px;
+    }
+  }
+}
+
 .shopify-link {
   color: inherit;
 
@@ -4164,3 +4200,8 @@ button.mfp-arrow {
     @include visuallyHidden;
 }
 
+.form-success {
+  font-size: 14px;
+  text-align: center;
+  padding: 15px;
+}

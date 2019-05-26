@@ -129,6 +129,16 @@
       "post_success": "Obrigado por entrar em contato conosco. Retornaremos o mais rápido possível."
     }
   },
+  "lancamento": {
+    "form": {
+      "name": "Nome",
+      "email": "E-mail",
+      "phone": "Número de telefone",
+      "message": "Mensagem",
+      "send": "Enviar",
+      "post_success": "Obrigado por confirmar sua presença, aguardo você lá!"
+    }
+  },
   "customer": {
     "account": {
       "title": "Minha conta",
