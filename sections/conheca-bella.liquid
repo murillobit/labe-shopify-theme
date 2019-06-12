@@ -1,0 +1,52 @@
+<div class="grid">
+  <div class="grid__item large--seven-twelfths">
+    <div class="">
+      {{ page.content }}
+    </div>       
+  </div>
+  <div class="grid__item large--five-twelfths">
+    <div class="featured-image">
+      {% include 'image-simple', image: section.settings.featured_image, image_max_width: section.settings.featured_image_max_width %}
+    </div>       
+  </div>
+  <div class="grid__item large--twelve-twelfths">
+    <div class="">
+      {{ section.settings.texto }}
+    </div>       
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": {
+    "en": "About Bella",
+    "pt-BR": "Sobre Bella"
+  },
+  "class": "featured-image-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "featured_image",
+      "label": {
+        "en": "Featured Image",
+        "pt-BR": "Imagem Destaque"
+      }
+    },
+    {
+      "type": "text",
+      "id": "featured_image_max_width",
+      "label": {
+        "en": "Featured Image width (in pixels, max 2048)",
+        "pt-BR": "Largura da Imagem Destaque (em pixels, máx. 2048)"
+      },
+      "default": "1920"
+    },
+    {
+      "type": "richtext",
+      "id": "texto",
+      "label": "Texto de baixo",
+      "default": "<p>nbsp;</p>"
+    }
+  ]
+}
+{% endschema %}

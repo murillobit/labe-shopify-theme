@@ -1,0 +1,5 @@
+{% assign image_width = image_max_width | times: 1 %}
+{% if image != blank and image_width <= 2048 %}
+  {% capture image_size %}{{ image_max_width | escape }}x{% endcapture %}
+  <img class="" src="{{ image | img_url: image_size }}" alt="{{ image.alt }}">
+{% endif %}

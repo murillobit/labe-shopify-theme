@@ -246,15 +246,72 @@
             </div>
 
             {%- if shop.taxes_included or shop.shipping_policy.body != blank -%}
-              <div class="product-single__policies rte">
+              {% comment %} <div class="product-single__policies rte">
                 {%- if shop.taxes_included -%}
                   {{ 'products.general.include_taxes' | t }}
                 {%- endif -%}
                 {%- if shop.shipping_policy.body != blank -%}
                   {{ 'products.general.shipping_policy_html' | t: link: shop.shipping_policy.url }}
                 {%- endif -%}
-              </div>
+              </div> {% endcomment %}
             {%- endif -%}
+
+            <hr class="hr--small">
+
+            <div class="product-single__description rte" itemprop="description">
+              {{ product.description }}
+            </div>
+
+            {% if section.settings.social_sharing_products %}
+              {% include 'social-sharing', share_title: product.title, share_permalink: product.url, share_image: product %}
+            {% endif %}
+
+            <hr class="hr--small">
+
+            <div class="tabela-medidas">
+              <p class="link-tabela">
+                <a data-fancybox="tabela-medidas" data-src="#tabela-medidas" href="javascript:;" class="text-link">
+                 Clique aqui
+                </a> para ver a tabela de medidas
+              </p>  
+              
+              <div id="tabela-medidas"  style="display: none; width: 100%; max-width: 660px;" class="">
+                  <h2>
+                      Tabela de medidas
+                  </h2>
+                  <hr class="hr--small">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>P</th>
+                        <th>M</th>
+                        <th>G</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Busto</td>
+                        <td>80/84</td>
+                        <td>85/88</td>
+                        <td>89/92</td>
+                      </tr>
+                      <tr>
+                        <td>Cintura</td>
+                        <td>60/64</td>
+                        <td>65/69</td>
+                        <td>70/74</td>
+                      </tr>
+                      <tr>
+                        <td>Quadril</td>
+                        <td>86/90</td>
+                        <td>91/95</td>
+                        <td>96/100</td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+            </div>
 
             <hr class="hr--small">
 
@@ -350,14 +407,7 @@
             {% endform %}
 
           </div>
-
-          <div class="product-single__description rte" itemprop="description">
-            {{ product.description }}
-          </div>
-
-          {% if section.settings.social_sharing_products %}
-            {% include 'social-sharing', share_title: product.title, share_permalink: product.url, share_image: product %}
-          {% endif %}
+          
         </div>
       </div>
     </div>
@@ -376,6 +426,8 @@
   </script>
 {% endunless %}
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
 
 
 {% schema %}

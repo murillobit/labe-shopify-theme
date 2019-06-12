@@ -38,28 +38,44 @@
 {% capture img_id_class %}ProductImage-{{ product.featured_image.id }}{% endcapture %}
 {% capture img_wrapper_id %}ProductImageWrapper-{{ product.featured_image.id }}{% endcapture %}
 {%- assign img_url = product.featured_image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+{%- assign img2_url = product.images.last | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
 
 <div class="grid__item grid-product {{ grid_item_width }}{% if sold_out %} is-sold-out{% endif %}">
   <div class="grid-product__wrapper">
     <div class="grid-product__image-wrapper">
       <a class="grid-product__image-link" href="{{ product.url | within: collection }}">
         {% if product.featured_image.src == blank %}
-          <img class="grid-product__image" src="{{ product.featured_image.src | img_url: '1024x' }}" alt="{{ product.featured_image.alt | escape }}">
+          <div class="reveal">
+            <img class="grid-product__image" src="{{ product.featured_image.src | img_url: '1024x' }}" alt="{{ product.featured_image.alt | escape }}">
+            <img class="hidden grid-product__image" src="{{ product.images.last.src | img_url: '1024x' }}" alt="{{ product.images.last.alt | escape }}">
+          </div>
         {% else %}
           {% include 'image-style' with image: product.featured_image, small_style: true, width: width, height: height, wrapper_id: img_wrapper_id, img_id_class: img_id_class %}
+              <div class="reveal">
           <div id="{{ img_wrapper_id }}" class="product--wrapper">
             <div style="padding-top:{{ 1 | divided_by: product.featured_image.aspect_ratio | times: 100 }}%;">
-              <img class="product--image lazyload {{ img_id_class }}"
-                   src="{{ product.featured_image | img_url: '150x150' }}"
-                   data-src="{{ img_url }}"
-                   data-widths="[180, 370, 590, 740, 900, 1080, 1296, 1512, 1728, 2048]"
-                   data-aspectratio="{{ product.featured_image.aspect_ratio }}"
-                   data-sizes="auto"
-                   alt="{{ product.featured_image.alt | escape }}">
+                <img class="product--image lazyload {{ img_id_class }}"
+                    src="{{ product.featured_image | img_url: '150x150' }}"
+                    data-src="{{ img_url }}"
+                    data-widths="[180, 370, 590, 740, 900, 1080, 1296, 1512, 1728, 2048]"
+                    data-aspectratio="{{ product.featured_image.aspect_ratio }}"
+                    data-sizes="auto"
+                    alt="{{ product.featured_image.alt | escape }}">
+                    <img class="hidden product--image lazyload {{ img_id_class }}"
+                    src="{{ product.images.last | img_url: '150x150' }}"
+                    data-src="{{ img2_url }}"
+                    data-widths="[180, 370, 590, 740, 900, 1080, 1296, 1512, 1728, 2048]"
+                    data-aspectratio="{{ product.images.last.aspect_ratio }}"
+                    data-sizes="auto"
+                    alt="{{ product.images.last.alt | escape }}">
+              </div>
             </div>
           </div>
           <noscript>
-            <img class="grid-product__image" src="{{ product.featured_image.src | img_url: '1024x' }}" alt="{{ product.featured_image.alt | escape }}">
+            <div class="reveal">
+              <img class="grid-product__image" src="{{ product.featured_image.src | img_url: '1024x' }}" alt="{{ product.featured_image.alt | escape }}">
+              <img class="hidden grid-product__image" src="{{ product.images.last.src | img_url: '1024x' }}" alt="{{ product.images.last.alt | escape }}">
+            </div>
           </noscript>
         {% endif %}
       </a>
@@ -78,7 +94,7 @@
     <a href="{{ product.url | within: collection }}" class="grid-product__meta">
       <span class="grid-product__title">{{ product.title }}</span>
       <span class="grid-product__price-wrap">
-        <span class="long-dash">—</span>
+        <br>
         <span class="grid-product__price">
           {% if on_sale %}
             <span class="visually-hidden">{{ 'products.general.sale_price' | t }}</span>

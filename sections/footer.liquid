@@ -182,8 +182,20 @@
         </div>
       {% endif %}
 
+      {% if section.settings.logo_max_width != blank %}
+        {% capture image_size %}{{ section.settings.logo_max_width | escape }}x{% endcapture %}
+      {% else %}
+        {% assign image_size = "120x" %}
+      {% endif %}
+
       <div class="grid__item {{ footer_column_width }} {% if num_footer_columns == 1 %}text-center{% else %}large--text-right{% endif %}">
-        <p>&copy; {{ 'now' | date: '%Y' }}, {{ shop.name | link_to: '/' }}<br>{{ powered_by_link }}</p>
+        <p><a href="/" itemprop="url" class="site-header__logo-link">
+                     <img src="{{ section.settings.logo | img_url: image_size }}"
+                     srcset="{{ section.settings.logo | img_url: image_size }} 1x, {{ section.settings.logo | img_url: image_size, scale: 2 }} 2x"
+                     alt="{{ section.settings.logo.alt | default: shop.name }}"
+                     itemprop="logo">
+                  </a><br>
+                  &copy; {{ 'now' | date: '%Y' }}<br>{{ powered_by_link }}</p>
           {%- if section.settings.show_payment_icons -%}
             {%- unless shop.enabled_payment_types == empty -%}
               <span class="visually-hidden">{{ 'general.payment.method' | t }}</span>
@@ -219,6 +231,50 @@
     "zh-TW": "頁尾"
   },
   "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": {
+        "de": "Logo",
+        "en": "Logo",
+        "es": "Logo",
+        "fr": "Logo",
+        "it": "Logo",
+        "ja": "ロゴ",
+        "nl": "Logo",
+        "pt-BR": "Logotipo",
+        "zh-CN": "徽标",
+        "zh-TW": "商標"
+      }
+    },
+    {
+      "type": "text",
+      "id": "logo_max_width",
+      "label": {
+        "de": "Benutzerdefinierte Logobreite (Pixel)",
+        "en": "Custom logo width (in pixels)",
+        "es": "Ancho del logotipo personalizado (en píxeles)",
+        "fr": "Largeur personnalisée du logo (en pixels)",
+        "it": "Larghezza logo personalizzato (in pixel)",
+        "ja": "ロゴの幅をカスタムする（ピクセルで）",
+        "nl": "Aangepaste logobreedte (in pixels)",
+        "pt-BR": "Largura do logotipo personalizado (em pixels)",
+        "zh-CN": "自定义徽标宽度（像素）",
+        "zh-TW": "自訂標誌寬度 (單位為像素)"
+      },
+      "default": {
+        "de": "180",
+        "en": "180",
+        "es": "180",
+        "fr": "180",
+        "it": "180",
+        "ja": "180",
+        "nl": "180",
+        "pt-BR": "180",
+        "zh-CN": "180",
+        "zh-TW": "180"
+      }
+    },
     {
       "type": "link_list",
       "id": "footer_link_list",

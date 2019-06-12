@@ -1,20 +1,16 @@
 <!-- /templates/page.contact.liquid -->
 <div class="grid">
 
-  <div class="grid__item large--five-sixths push--large--one-twelfth">
+  <div class="grid__item large--six-sixths">
 
     <header class="section-header text-center">
       <h1>{{ page.title }}</h1>
       <hr class="hr--small">
     </header>
 
-    <div class="grid">
-      <div class="grid__item large--four-fifths push--large--one-tenth">
-        <div class="rte rte--nomargin rte--indented-images">
-          {{ page.content }}
-        </div>
+    {% section 'contato-content' %}
 
-        <div class="form-vertical">
+    <div class="form-vertical">
           {% form 'contact' %}
 
             {% comment %}
@@ -50,9 +46,8 @@
 
           {% endform %}
         </div>
-      </div>
-    </div>
 
   </div>
 
 </div>
+

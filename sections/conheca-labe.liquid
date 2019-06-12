@@ -1,0 +1,86 @@
+<div class="grid">
+  <div class="grid__item large--six-sixths">
+    <div class="featured-image">
+      {% include 'image-simple', image: section.settings.featured_image, image_max_width: section.settings.featured_image_max_width %}
+    </div>       
+  </div>
+  <div class="grid__item large--six-sixths">
+    <div class="">
+      {{ page.content }}
+    </div>       
+  </div>
+</div>
+
+<div class="grid galeria">
+  {% case section.blocks.size %}
+  {% when 0 %}
+  {% when 1 %}
+    {% assign column_width = 'text-center' %}
+  {% when 2 %}
+    {% assign column_width = 'grid__item large--one-half' %}
+  {% when 3 %}
+    {% assign column_width = 'grid__item large--one-third' %}
+  {% endcase %}
+
+
+  {% for block in section.blocks %}
+    <div class="{{ column_width }}" {{ block.shopify_attributes }}>
+      {% include 'image-simple', image: block.settings.image, image_max_width: block.settings.image_max_width %}
+    </div>
+  {% endfor %}
+</div>
+
+{% schema %}
+{
+  "name": {
+    "en": "About Labè",
+    "pt-BR": "Sobre Labè"
+  },
+  "max_blocks": 3,
+  "class": "featured-image-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "featured_image",
+      "label": {
+        "en": "Featured Image",
+        "pt-BR": "Imagem Destaque"
+      }
+    },
+    {
+      "type": "text",
+      "id": "featured_image_max_width",
+      "label": {
+        "en": "Featured Image width (in pixels, max 2048)",
+        "pt-BR": "Largura da Imagem Destaque (em pixels, máx. 2048)"
+      },
+      "default": "1920"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "gallery_image",
+      "name": "Imagem Galeria",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": {
+            "en": "Image",
+            "pt-BR": "Imagem"
+          }
+        },
+        {
+          "type": "text",
+          "id": "image_max_width",
+          "label": {
+            "en": "Image width (in pixels, max 2048)",
+            "pt-BR": "Largura da Imagem (em pixels, máx. 2048)"
+          },
+          "default": "500"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
