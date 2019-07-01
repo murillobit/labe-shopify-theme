@@ -30,10 +30,7 @@
   {% assign on_sale = true %}
 {% endif %}
 
-{% assign sold_out = true %}
-{% if product.available %}
-  {% assign sold_out = false %}
-{% endif %}
+{% assign sold_out = false %}
 
 {% capture img_id_class %}ProductImage-{{ product.featured_image.id }}{% endcapture %}
 {% capture img_wrapper_id %}ProductImageWrapper-{{ product.featured_image.id }}{% endcapture %}

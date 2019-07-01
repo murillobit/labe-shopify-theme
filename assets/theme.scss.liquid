@@ -4237,6 +4237,7 @@ button.mfp-arrow {
   font-size: 14px;
   text-align: center;
   padding: 15px;
+  color: $cinza2;
 }
 
 .main-content {
@@ -4520,6 +4521,30 @@ body:not(.template-index) {
     background: transparent;
   }
 
+  .product-single__price {
+    font-size: 1.6em;
+  }
+
+  .variant-sku {
+    display: block;
+    margin-bottom: 15px;
+  }
+
+  .product-single__thumbnails {
+    img {
+      max-height: none;
+    }
+
+    .product-single__thumbnail {
+      &.active-thumb {
+        img {
+          border-color: $bege2;
+        }
+      }
+    }
+  }
+  
+
 }
 
 
@@ -4536,6 +4561,28 @@ body:not(.template-index) {
       color: $bege2;
     }
   }
+}
+
+#sold-out-form {
+  &.hidden {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  input {
+    width: 100%;
+    margin-bottom: 15px;
+
+    &[type="text"], &[type="email"] {
+      font-size: em(14px);
+    }
+  }
+
+  .text-secondary {
+    font-size: em(12px);
+  }
+
+ 
 }
 
 

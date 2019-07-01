@@ -408,6 +408,7 @@ slate.Variants = (function() {
     this.product = options.product;
     this.singleOptionSelector = options.singleOptionSelector;
     this.originalSelectorId = options.originalSelectorId;
+    this.soldOutFormProduct = options.soldOutFormProduct;
     this.enableHistoryState = options.enableHistoryState;
     this.currentVariant = this._getVariantFromOptions();
 
@@ -589,6 +590,7 @@ slate.Variants = (function() {
      */
     _updateMasterSelect: function(variant) {
       $(this.originalSelectorId, this.$container).val(variant.id);
+      $(this.soldOutFormProduct).val(variant.sku);
     }
   });
 
@@ -1161,7 +1163,7 @@ var ajaxCart = (function(module, $) {
         }
 
         // Update the input's number
-        $qtySelector.val(qty);
+        $qtySelector.val(qty).change();
       });
     }
   };
@@ -2129,7 +2131,11 @@ theme.Product = (function() {
       radioWrapper: '.radio-wrapper',
       meta: '.product-single__meta',
       productWrapper: '.product-single',
-      shopifyPaymentButton: '.shopify-payment-button'
+      shopifyPaymentButton: '.shopify-payment-button',
+      soldOutForm: '#sold-out-form',
+      addToCartWrapper: '.product-single__add-to-cart',
+      soldOutFormProduct: '#SolicitarProduto',
+      soldOutFormQuantity: '#SolicitarQuantidade'
     };
 
     var $container = (this.$container = $(container));
@@ -2142,6 +2148,25 @@ theme.Product = (function() {
     this.productSingleObject = JSON.parse(
       document.getElementById('ProductJson-' + sectionId).innerHTML
     );
+
+    this.variantsInventory = {};
+
+    if ($('#VariantIdsJson-' + sectionId).html() && $('#VariantQuantitiesJson-' + sectionId).html()) {
+      var variantIds = JSON.parse(
+        document.getElementById('VariantIdsJson-' + sectionId).innerHTML
+      );
+
+      var variantQuantities = JSON.parse(
+        document.getElementById('VariantQuantitiesJson-' + sectionId).innerHTML
+      );
+
+      if(variantIds.length == variantQuantities.length) {
+        for (var i = 0; i < variantIds.length; i++) {
+          this.variantsInventory[variantIds[i]] = variantQuantities[i];
+        }
+      }
+    }
+
     this.zoomType = $container.data('image-zoom-type');
 
     this.initBreakpoints();
@@ -2180,7 +2205,9 @@ theme.Product = (function() {
           this.$container.data('enable-history-state') || false,
         singleOptionSelector: this.selectors.singleOptionSelector,
         originalSelectorId: this.selectors.originalSelectorId,
-        product: this.productSingleObject
+        soldOutFormProduct: this.selectors.soldOutFormProduct,
+        product: this.productSingleObject,
+        variantQuantities: this.variantsInventory
       };
 
       this.variants = new slate.Variants(options);
@@ -2523,7 +2550,7 @@ theme.Product = (function() {
           $(this.selectors.addToCartText, this.$container).html(
             translations.soldOut
           );
-          $(this.selectors.quantityElements, this.$container).hide();
+          // $(this.selectors.quantityElements, this.$container).hide();
           $(this.selectors.shopifyPaymentButton, this.$container).hide();
         }
 
@@ -2598,6 +2625,18 @@ theme.Product = (function() {
           'true'
         );
       }
+
+      $(this.selectors.soldOutForm).addClass('hide');
+      $(this.selectors.addToCartWrapper).removeClass('hide');
+
+      // if current variant has 0 inventory quantity, show order form and hide add to cart button
+      if (this.variantsInventory[variant.id] == 0) {
+        $(this.selectors.soldOutForm).removeClass('hide');
+        $('#sold-out-form .text-primary').removeClass('hide');
+        $(this.selectors.addToCartWrapper).addClass('hide');
+        this.initStickyProductMeta();
+      }
+
     },
 
     updateUrlParameter: function(url, key, value) {
@@ -3586,7 +3625,28 @@ $(document).ready(function() {
   sections.register('password-content', theme.PasswordContent);
   sections.register('map', theme.Maps);
   sections.register('search', theme.Search);
+
+  if ($('#SolicitarQuantidade').length) {
+    $('#AddToCartForm--product-template #Quantity').change(function () {
+      $('#SolicitarQuantidade').val($(this).val());
+    });
+  }
+
+  $('#AddToCart--product-template').click(function () {
+    $('#sold-out-form').addClass('hide');
+  });
+
+  $('#AddToCartForm--product-template input[name="tamanho"]').change(function () {
+    $('.qty-error').addClass('hide');
+  });
+
 });
+
+function showSoldOutForm () {
+  $('#sold-out-form').removeClass('hide');
+  $('#sold-out-form .text-primary').addClass('hide');
+  window.dispatchEvent(new Event('resize'));
+}
 
 /*
  * Run function after window resize

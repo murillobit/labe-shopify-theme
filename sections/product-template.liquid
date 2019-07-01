@@ -4,7 +4,24 @@
     <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
     <meta itemprop="image" content="{{ product.featured_image.src | img_url: 'grande' }}">
 
-    {% assign current_variant = product.selected_or_first_available_variant %}
+    {% assign current_variant = product.selected_variant %}
+
+    {% if contact.fields.product %}
+      {% for variant in product.variants %}
+        {% if contact.fields.product == variant.sku  %}
+          {% assign current_variant = variant %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+    
+    {% unless current_variant %}
+      {% for variant in product.variants %}
+        {% if current_variant == nil or variant.inventory_quantity > current_variant.inventory_quantity %}
+          {% assign current_variant = variant %}
+        {% endif %}
+      {% endfor %}
+    {% endunless %}
+
     {% assign featured_image = current_variant.featured_image | default: product.featured_image %}
 
     <div class="grid product-single">
@@ -193,9 +210,9 @@
             <ul class="product-single__thumbnails small--hide grid-uniform" id="ProductThumbs">
               {% for image in product.images %}
                 {% if product.images.size > 1 %}
-                  <li class="grid__item medium--one-third large--one-quarter product-single__photo-wrapper">
+                  <li class="grid__item medium--one-third large--one-third  product-single__photo-wrapper">
                     <a data-image-id="{{ image.id }}" href="{{ image.src | img_url: 'grande' }}" class="product-single__thumbnail {% if image contains featured_image %} active-thumb{% endif %}">
-                      <img class="product-single__thumb" src="{{ image.src | img_url: '150x' }}" alt="{{ image.alt | escape }}">
+                      <img class="product-single__thumb" src="{{ image.src | img_url: '450x' }}" alt="{{ image.alt | escape }}">
                     </a>
                   </li>
                 {% endif %}
@@ -214,6 +231,8 @@
 
           <h1 class="product-single__title" itemprop="name">{{ product.title }}</h1>
 
+          <span class="variant-sku">{{ current_variant.sku }}</span>
+
           <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
             <div data-price-container>
               {% comment %}
@@ -221,7 +240,7 @@
               {% endcomment %}
 
               {% if current_variant.compare_at_price > current_variant.price %}
-                <span id="PriceA11y" class="visually-hidden" {% unless current_variant.available %}aria-hidden="true"{% endunless %}>{{ 'products.general.regular_price' | t }}</span>
+                <span id="PriceA11y" class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
                 <span class="product-single__price--wrapper" aria-hidden="false">
                   <span id="ComparePrice" class="product-single__price--compare-at">
                     {{ current_variant.compare_at_price | money }}
@@ -229,7 +248,7 @@
                 </span>
                 <span id="ComparePriceA11y" class="visually-hidden" aria-hidden="false">{{ 'products.general.sale_price' | t }}</span>
               {% else %}
-                <span id="PriceA11y" class="visually-hidden" {% unless current_variant.available %}aria-hidden="true"{% endunless %}>{{ 'products.general.regular_price' | t }}</span>
+                <span id="PriceA11y" class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
                 <span class="product-single__price--wrapper hide" aria-hidden="true">
                   <span id="ComparePrice" class="product-single__price--compare-at"></span>
                 </span>
@@ -239,8 +258,7 @@
               <span id="ProductPrice"
                 class="product-single__price{% if current_variant.compare_at_price > current_variant.price %} on-sale{% endif %}"
                 itemprop="price"
-                content="{{ current_variant.price | divided_by: 100.00 }}"
-                {% unless current_variant.available %}aria-hidden="true"{% endunless %}>
+                content="{{ current_variant.price | divided_by: 100.00 }}">
                 {{ current_variant.price | money }}
               </span>
             </div>
@@ -325,85 +343,62 @@
             {% capture "form_id" %}AddToCartForm--{{ section.id }}{%- endcapture %}
 
             {% form 'product', product, class:form_classes, id:form_id %}
-              {% unless product.has_only_default_variant %}
-                {% for option in product.options_with_values %}
-                  <div class="radio-wrapper js product-form__item">
-                    <label class="single-option-radio__label{% if option.name == 'Default' or option.name == 'Title' %} hidden-label{% endif %}"
-                      for="ProductSelect-option-{{ forloop.index0 }}">
-                      {{ option.name | escape }}
-                    </label>
-                    {% if section.settings.product_selector == 'radio' %}
-                      <fieldset class="single-option-radio"
-                        name="{{ option.name | handleize }}"
-                        id="ProductSelect-option-{{ forloop.index0 }}">
-                        {% assign option_index = forloop.index %}
-                        {% for value in option.values %}
-                          {% assign variant_label_state = true %}
-                          {% if product.options.size == 1 %}
-                            {% unless product.variants[forloop.index0].available  %}
-                              {% assign variant_label_state = false %}
-                            {% endunless %}
-                          {% endif %}
-                          <input type="radio"
-                            {% if option.selected_value == value %} checked="checked"{% endif %}
-                            {% unless variant_label_state %} disabled="disabled"{% endunless %}
-                            value="{{ value | escape }}"
-                            data-index="option{{ option_index }}"
-                            name="{{ option.name | handleize }}"
-                            class="single-option-selector__radio{% unless variant_label_state %} disabled{% endunless %}"
-                            id="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}">
-                          <label for="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}"{% unless variant_label_state %} class="disabled"{% endunless %}>{{ value | escape }}</label>
-                        {% endfor %}
-                      </fieldset>
-                    {% else %}
-                      <select class="single-option-selector__radio single-option-selector-{{ section.id }} product-form__input" id="SingleOptionSelector-{{ forloop.index0 }}" data-index="option{{ forloop.index }}">
-                        {% for value in option.values %}
-                          <option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value | escape }}</option>
-                        {% endfor %}
-                      </select>
-                    {% endif %}
-                  </div>
-                {% endfor %}
-              {% endunless %}
-
-              <select name="id" id="ProductSelect" class="product-single__variants no-js">
-                {% for variant in product.variants %}
-                  {% if variant.available %}
-                    <option {% if variant == product.selected_or_first_available_variant %}
-                      selected="selected" {% endif %}
-                      data-sku="{{ variant.sku }}"
-                      value="{{ variant.id }}">
-                      {{ variant.title }} - {{ variant.price | money_with_currency }}
-                    </option>
-                  {% else %}
-                    <option disabled="disabled">
-                      {{ variant.title }} - {{ 'products.product.sold_out' | t }}
-                    </option>
-                  {% endif %}
-                {% endfor %}
-              </select>
-
-              {% if section.settings.quantity_enabled %}
-              <div class="product-single__quantity">
-                <label for="Quantity" class="product-single__quantity-label js-quantity-selector">{{ 'products.product.quantity' | t }}</label>
-                <input type="number" hidden="hidden" id="Quantity" name="quantity" value="1" min="1" class="js-quantity-selector">
-              </div>
-              {% endif %}
-
-              <div class="product-single__add-to-cart{% if section.settings.add_to_cart_button_size == 'large' %} product-single__add-to-cart--full-width{% endif %}">
-                <button type="submit" name="add" id="AddToCart--{{ section.id }}" class="btn btn--add-to-cart{% if section.settings.enable_payment_button %} btn--secondary-accent{% endif %}"{% unless current_variant.available %} disabled="disabled"{% endunless %}>
+              {% include 'product-selection-form' %}
+              <div class="product-single__add-to-cart{% if section.settings.add_to_cart_button_size == 'large' %} product-single__add-to-cart--full-width{% endif %}{% if current_variant.inventory_quantity == 0 %} hide{% endif %}">
+                <button type="submit" name="add" id="AddToCart--{{ section.id }}" class="btn btn--add-to-cart{% if section.settings.enable_payment_button %} btn--secondary-accent{% endif %}">
                   <span class="btn__text">
-                    {% if current_variant.available %}
-                      {{ 'products.product.add_to_cart' | t }}
-                    {% else %}
-                      {{ 'products.product.sold_out' | t }}
-                    {% endif %}
+                    {{ 'products.product.add_to_cart' | t }}
                   </span>
                 </button>
                 {% if section.settings.enable_payment_button %}
                   {{ form | payment_button }}
                 {% endif %}
               </div>
+            {% endform %}
+            
+            {% form 'contact' %}
+              <div id="sold-out-form" class="{% if current_variant.inventory_quantity != 0 %}hide{% endif %}">
+                <p class="text-primary"><strong>Caso tenha gostado desse modelo{% unless product.has_only_default_variant %} e tamanho{% endunless %}, informe seus dados</strong>
+                para verificarmos a possibilidade de produzi-lo e lhe atender no menor tempo possível!
+                </p>
+                
+                <div class="clearfix">
+                  <div class="grid">
+                    {% if customer %}
+                    <input type="hidden" name="contact[name]" value="{{ customer.name }}" />
+                    <input type="hidden" name="contact[email]" value="{{ customer.email }}" />
+                    <input type="hidden" name="contact[phone]" value="{{ customer.phone }}" />
+                    {% else %}
+                    <div class="grid__item">
+                      <input required="required" type="text" name="contact[name]" placeholder="Seu nome" class="styled-input{% if form.errors contains 'name' %} error{% endif %}" value="{{ contact.fields.name }}" />
+                    </div>
+                    <div class="grid__item">
+                      <input required="required" type="email" name="contact[email]" placeholder="email@email.com" class="styled-input{% if form.errors contains 'email' %} error{% endif %}" value="{{ contact.fields.email }}" />
+                    </div>
+                    {% endif %}
+                    <input type="hidden" id="SolicitarProduto" name="contact[product]" value="{{  contact.fields.product | default: current_variant.sku }}" />
+                    <input type="hidden" id="SolicitarQuantidade" name="contact[quantity]" value="{{  contact.fields.quantity | default: 1 }}" />
+                    <input type="hidden" name="contact[body]" value="Solicitação de produto fora de estoque" />
+                    <div class="grid__item">
+                      <input class="btn styled-submit" type="submit" value="Solicitar" />
+                    </div>
+                  </div>
+                </div>
+                
+                <p class="text-secondary">
+                  Não trabalhamos com produção em larga escala, por isso nosso estoque é reduzido e administrado de acordo com nossa demanda, 
+                  a fim de evitar desperdícios.
+                </p>
+              </div>
+
+              <div class="messages">
+              {% if form.posted_successfully? %}
+                <p class="note form-success">Obrigado! Entraremos em contato com você em breve.</p>
+              {% else %}
+                {{ form.errors | default_errors }}
+              {% endif %}
+              </div>
+
             {% endform %}
 
           </div>
@@ -423,6 +418,16 @@
 {% unless product == empty %}
   <script type="application/json" id="ProductJson-{{ section.id }}">
     {{ product | json }}
+  </script>
+
+  {% assign variant_ids = product.variants | map: 'id' %}
+  <script type="application/json" id="VariantIdsJson-{{ section.id }}">
+    {{ variant_ids | json }}
+  </script>
+
+  {% assign variant_quantities = product.variants | map: 'inventory_quantity' %}
+  <script type="application/json" id="VariantQuantitiesJson-{{ section.id }}">
+    {{ variant_quantities | json }}
   </script>
 {% endunless %}
 
