@@ -1558,7 +1558,8 @@ a {
 
 .return-link {
   @include accentFontStack;
-  font-size: em(14px);
+  font-size: em(12px);
+  color: $cinza1;
 }
 
 /*================ Buttons and Input Groups ================*/
@@ -2933,7 +2934,7 @@ $slick-dot-character: '\2022';
       right: $gutter;
       bottom: 0;
       display: block;
-      background-color: $colorNavText;
+      background-color: $bege1;
       height: 1px;
       z-index: $zindexNavDropdowns + 1;
     }
@@ -3006,7 +3007,6 @@ $slick-dot-character: '\2022';
 }
 
 .site-nav__dropdown-link {
-  @include bodyFontItalic;
   display: block;
   white-space: nowrap;
   padding: 5px 15px;
@@ -4543,8 +4543,12 @@ body:not(.template-index) {
       }
     }
   }
-  
+}
 
+#shopify-section-product-recommendations {
+  .section-header {
+    margin: 60px 0 30px 0;
+  }
 }
 
 

@@ -3621,6 +3621,7 @@ $(document).ready(function() {
   sections.register('featured-content-section', theme.FeaturedContentSection);
   sections.register('newsletter-section', theme.NewsletterSection);
   sections.register('slideshow-section', theme.SlideshowSection);
+  sections.register('product-recommendations', theme.ProductRecommendations);
   sections.register('password-header', theme.PasswordHeader);
   sections.register('password-content', theme.PasswordContent);
   sections.register('map', theme.Maps);
@@ -3663,4 +3664,16 @@ var afterResize = (function () {
     }
     t[uniqueId] = setTimeout(callback, ms);
   };
+})();
+
+theme.ProductRecommendations = (function () {
+  function ProductRecommendations(container) {
+    var $container = (this.$container = $(container));
+    var productId = $container.data('productId');
+    var limit = $container.data('limit');
+    var productRecommendationsUrlAndContainerClass =
+      '/recommendations/products?&section_id=product-recommendations&limit=' + limit + '&product_id=' + productId + ' .product-recommendations';
+    $container.parent().load(productRecommendationsUrlAndContainerClass);
+  }
+  return ProductRecommendations;
 })();

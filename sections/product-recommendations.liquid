@@ -1,0 +1,24 @@
+{% assign heading = 'Produtos recomendados para você' %}
+{% assign limit = 3 %}
+<div class="page-width product-recommendations" data-product-id="{{ product.id }}" data-limit="{{ limit }}" data-section-id="{{ section.id }}" data-section-type="product-recommendations">
+  {% if recommendations.performed %}
+    {% if recommendations.products_count > 0 %}
+      <div class="section-header text-center">
+        <h2>{{ heading }}</h2>
+        <hr class="hr--small">
+      </div>
+      
+      <div class="grid grid--uniform grid--view-items">
+        {% for product in recommendations.products %}
+          {% include 'product-grid-item' %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% else %}
+    <div class="product-recommendations__loading-dots">
+      <div class="product-recommendations__loading-dot"></div>
+      <div class="product-recommendations__loading-dot"></div>
+      <div class="product-recommendations__loading-dot"></div>
+    </div>
+  {% endif %}
+</div>
