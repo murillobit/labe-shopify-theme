@@ -3677,3 +3677,9 @@ theme.ProductRecommendations = (function () {
   }
   return ProductRecommendations;
 })();
+$(window).load(function () {
+  $('.blog-articles .masonry').masonry({
+    itemSelector: '.masonry .grid__item',
+    columnWidth: '.masonry .large--one-third'
+  });
+});
