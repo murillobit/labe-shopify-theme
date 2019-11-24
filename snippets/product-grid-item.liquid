@@ -43,12 +43,26 @@
       <a class="grid-product__image-link" href="{{ product.url | within: collection }}">
         {% if product.featured_image.src == blank %}
           <div class="reveal">
+          {% for tag in product.tags %}
+            {% if tag == 'Novidade' %}
+              <div class="news-tag">
+                Novidade!
+              </div>
+            {% endif %}
+          {% endfor %}
             <img class="grid-product__image" src="{{ product.featured_image.src | img_url: '1024x' }}" alt="{{ product.featured_image.alt | escape }}">
             <img class="hidden grid-product__image" src="{{ product.images.last.src | img_url: '1024x' }}" alt="{{ product.images.last.alt | escape }}">
           </div>
         {% else %}
           {% include 'image-style' with image: product.featured_image, small_style: true, width: width, height: height, wrapper_id: img_wrapper_id, img_id_class: img_id_class %}
               <div class="reveal">
+              {% for tag in product.tags %}
+                {% if tag == 'Novidade' %}
+                  <div class="news-tag">
+                    Novidade!
+                  </div>
+                {% endif %}
+              {% endfor %}
           <div id="{{ img_wrapper_id }}" class="product--wrapper">
             <div style="padding-top:{{ 1 | divided_by: product.featured_image.aspect_ratio | times: 100 }}%;">
                 <img class="product--image lazyload {{ img_id_class }}"

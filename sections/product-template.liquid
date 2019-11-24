@@ -38,6 +38,13 @@
             image.
           {% endcomment %}
           <div class="product-single__photos">
+            {% for tag in product.tags %}
+              {% if tag == 'Novidade' %}
+                <div class="news-tag">
+                  Novidade!
+                </div>
+              {% endif %}
+            {% endfor %}
             {% capture img_id_class %}product-single__photo-{{ featured_image.id }}{% endcapture %}
             {% capture wrapper_id %}ProductImageWrapper-{{ featured_image.id }}{% endcapture %}
 
@@ -122,6 +129,13 @@
           {% endcomment %}
 
           <div class="product-thumbnail__photos product-single__photos">
+            {% for tag in product.tags %}
+              {% if tag == 'Novidade' %}
+                <div class="news-tag">
+                  Novidade!
+                </div>
+              {% endif %}
+            {% endfor %}
 
             {% comment %}
               We need to figure out the max width we want the image to be on the page
