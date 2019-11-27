@@ -298,23 +298,31 @@
               {% include 'social-sharing', share_title: product.title, share_permalink: product.url, share_image: product %}
             {% endif %}
 
-            <hr class="hr--small">
+            {% if product.has_only_default_variant == false %}
 
-            <div class="tabela-medidas">
-              <p class="link-tabela">
-                <a data-fancybox="tabela-medidas" data-src="#tabela-medidas" href="javascript:;" class="text-link">
-                 Clique aqui
-                </a> para ver a tabela de medidas
-              </p>  
-              
-              <div id="tabela-medidas"  style="display: none; width: 100%; max-width: 660px;" class="">
-                  <h2>
-                      Tabela de medidas
-                  </h2>
-                  <hr class="hr--small">
-                  {{ pages.tabela-de-medidas.content }}
+              <hr class="hr--small">
+
+              <div class="tabela-medidas">
+                <p class="link-tabela">
+                  <a data-fancybox="tabela-medidas" data-src="#tabela-medidas" href="javascript:;" class="text-link">
+                  Clique aqui
+                  </a> para ver a tabela de medidas
+                </p>  
+                
+                <div id="tabela-medidas"  style="display: none; width: 100%; max-width: 660px;" class="">
+                    <h2>
+                        Tabela de medidas
+                    </h2>
+                    <hr class="hr--small">
+                    {% if product.type == "T-shirt" %}
+                      {{ pages.tabela-de-medidas-t-shirt.content }}
+                    {% else %}
+                      {{ pages.tabela-de-medidas.content }}
+                    {% endif %}
+                </div>
               </div>
-            </div>
+
+            {% endif %}
 
             <hr class="hr--small">
 
