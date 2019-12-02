@@ -4281,15 +4281,24 @@ body:not(.template-index) {
 }
 
 .template-index {
+  .hero__slide .hero__title, .hero--adapt .hero__title {
+    font-size: 4em;
+  }
   
-    @include at-query($max, $large) {
+  @include at-query($max, 340px) {
+    .hero__slide .hero__title, .hero--adapt .hero__title {
+      font-size: 2em;
+    }
+  }
 
-      .hero .hero__image {
-        object-position: 35% center !important;
-      }
-      .hero__slide .hero__title, .hero--adapt .hero__title {
-        font-size: 3em;
-      }
+  @include at-query($max, $large) {
+
+    .hero .hero__image {
+      object-position: 60% center !important;
+    }
+    .hero__slide .hero__title, .hero--adapt .hero__title {
+      font-size: 2.5em;
+    }
   }
 
   .main-content {
