@@ -4285,12 +4285,6 @@ body:not(.template-index) {
     font-size: 4em;
   }
   
-  @include at-query($max, 340px) {
-    .hero__slide .hero__title, .hero--adapt .hero__title {
-      font-size: 2em;
-    }
-  }
-
   @include at-query($max, $large) {
 
     .hero .hero__image {
@@ -4298,6 +4292,12 @@ body:not(.template-index) {
     }
     .hero__slide .hero__title, .hero--adapt .hero__title {
       font-size: 2.5em;
+    }
+  }
+
+  @include at-query($max, 340px) {
+    .hero__slide .hero__title, .hero--adapt .hero__title {
+      font-size: 2em;
     }
   }
 
