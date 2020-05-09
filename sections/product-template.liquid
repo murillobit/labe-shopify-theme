@@ -352,6 +352,9 @@
                       <input required="required" type="text" name="contact[name]" placeholder="Seu nome" class="styled-input{% if form.errors contains 'name' %} error{% endif %}" value="{{ contact.fields.name }}" />
                     </div>
                     <div class="grid__item">
+                      <input type="text" name="contact[phone]" placeholder="Telefone" class="styled-input{% if form.errors contains 'phone' %} error{% endif %}" value="{{ contact.fields.phone }}" />
+                    </div>
+                    <div class="grid__item">
                       <input required="required" type="email" name="contact[email]" placeholder="email@email.com" class="styled-input{% if form.errors contains 'email' %} error{% endif %}" value="{{ contact.fields.email }}" />
                     </div>
                     {% endif %}
