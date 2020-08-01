@@ -318,5 +318,12 @@
   },
   "date_formats": {
     "month_day_year": "%-d de %b de %Y"
+  },
+  "shopify": {
+    "checkout": {
+      "contact": {
+        "address1_label": "Endereço, número e bairro"
+      }
+    }
   }
 }
