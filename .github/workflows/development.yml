@@ -20,4 +20,4 @@ jobs:
           SHOPIFY_THEME_ID: ${{ secrets.SHOPIFY_DEVELOPMENT_THEME_ID }}
           THEME_PATH: ${{ secrets.THEME_PATH }}
         with:
-          args: --ignored-file=config/settings_data.json --ignored-file=locales/*
+          args: --ignored-file=config/settings_data.json
