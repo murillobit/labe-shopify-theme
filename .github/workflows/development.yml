@@ -1,0 +1,23 @@
+name: Deploy Development Theme
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  deploy:
+    name: Deploy Development Theme
+    runs-on: ubuntu-latest
+    steps:
+      # basically git clone
+      - uses: actions/checkout@v2
+      # deploy shopify theme
+      - uses: pgrimaud/action-shopify@2.1.0
+        env:
+          SHOPIFY_PASSWORD: ${{ secrets.SHOPIFY_PRODUCTION_PASSWORD }}
+          SHOPIFY_STORE_URL: ${{ secrets.SHOPIFY_PRODUCTION_STORE_URL }}
+          SHOPIFY_THEME_ID: ${{ secrets.SHOPIFY_DEVELOPMENT_THEME_ID }}
+          THEME_PATH: ${{ secrets.THEME_PATH }}
+        with:
+          args: --ignored-file=config/settings_data.json --ignored-file=locales/*
