@@ -132,21 +132,22 @@
                 - Your theme settings can turn this on or off. Default is on.
                 - Make sure you have name="note" for the message to be submitted properly
             {% endcomment %}
-            {% if settings.cart_notes_enable %}
-              <div class="grid__item large--seven-twelfths cart__note-container">
+            <div class="grid__item large--seven-twelfths cart__note-container">
+              <div class="gift" style="margin: 15px 0" >
+                  <input type="hidden" name="attributes[gift-wrapping]" value="" />
+                  <input id="gift-wrapping" type="checkbox" name="attributes[gift-wrapping]" value="yes" {% if cart.attributes.gift-wrapping %} checked="checked"{% endif %} style="float: none" />
+                  <label for="gift-wrapping" style="display:inline; padding-left: 5px; float: none;">
+                    Embalagem para presente
+                  </label>
+              </div>
+              {% if settings.cart_notes_enable %}
                 <div class="cart__note">
                   <label for="CartSpecialInstructions">{{ 'cart.general.note' | t }}</label>
                   <textarea name="note" class="input-full" id="CartSpecialInstructions">{{ cart.note }}</textarea>
                 </div>
-                <div class="gift" style="margin: 15px 0" >
-                    <input type="hidden" name="attributes[gift-wrapping]" value="" />
-                    <input id="gift-wrapping" type="checkbox" name="attributes[gift-wrapping]" value="yes" {% if cart.attributes.gift-wrapping %} checked="checked"{% endif %} style="float: none" />
-                    <label for="gift-wrapping" style="display:inline; padding-left: 5px; float: none;">
-                      Embalagem para presente
-                    </label>
-                </div>
-              </div>
-            {% endif %}
+              {% endif %}
+            </div>
+
             <div class="grid__item large--five-twelfths text-center large--text-right{% if settings.cart_notes_enable %} cart__subtotal-container{% else %} push--large--seven-twelfths{% endif %}">
               <div class="grid--full cart__row--table">
                 <div class="grid__item one-half large--two-thirds large--text-center">
