@@ -382,7 +382,7 @@ $successGreenBg: #ecfef0;
 $drawerNavWidth: 300px;
 $drawerCartWidth: 300px;
 $drawerCartWidthLarge: 400px; // small-up width
-$drawerHeaderHeight: 60px;
+$drawerHeaderHeight: 80px;
 $drawerCartFooterHeight: 130px; // default, overwritten by JS
 $colorDrawers: {{ settings.color_drawer_background }};
 $colorDrawerBorder: {{ settings.color_drawer_border }};
@@ -1119,15 +1119,15 @@ blockquote {
 }
 
 /*================ Cart Typography ================*/
-.ajaxcart__product-name,
-.cart__product-name {
-  @include bodyFontItalic;
-}
+// .ajaxcart__product-name,
+// .cart__product-name {
+//   @include bodyFontItalic;
+// }
 
-.ajaxcart__product-name {
-  font-size: em(17px);
-  line-height: 1.3;
-}
+// .ajaxcart__product-name {
+//   font-size: em(17px);
+//   line-height: 1.3;
+// }
 
 .ajaxcart__price,
 .cart__price,
@@ -2794,7 +2794,7 @@ $slick-dot-character: '\2022';
 
   @include at-query($max, $medium) {
     img {
-      max-height: $drawerHeaderHeight / 2 + $gutter / 2; // account for border-box height
+      max-height: $drawerHeaderHeight / 2;
       margin-top: $gutter / 3;
       margin-bottom: $gutter / 3;
     }
@@ -4755,7 +4755,7 @@ button.mfp-arrow {
 .header-wrapper {
   background: $bege0;
   position: fixed;
-  z-index: 1;
+  z-index: 2000;
   width: 100%;
 
   .site-header {
@@ -4776,4 +4776,14 @@ button.mfp-arrow {
 
 body:not(.template-index) .page-container {
   padding-top: 60px;
+}
+.ajaxcart__product-name,
+.cart__product-name {
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+
+.grecaptcha-badge {
+  display: none;
 }
