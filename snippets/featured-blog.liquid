@@ -20,11 +20,11 @@
   </h2>
   <hr class="hr--small {% if section.settings.post_limit == 1 and section.settings.blog_show_image == false %}hr--middle{% else %}hr--left{% endif %}">
   {% if section.settings.blog_show_excerpt %}
-    <div class="rte rte--indented-images">
+    <div class="rte rte--indented-images excerpt">
       {{ article.excerpt_or_content | strip_html | truncatewords: 30 }}
     </div>
   {% endif %}
-  <p>
+  <div>
     <a href="{{ article.url }}" class="read-more text-link">{{ 'blogs.article.read_more' | t }} <span class="icon icon-arrow-right" aria-hidden="true"></span></a>
-  </p>
+  </div>
 </div>

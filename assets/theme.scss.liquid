@@ -382,7 +382,7 @@ $successGreenBg: #ecfef0;
 $drawerNavWidth: 300px;
 $drawerCartWidth: 300px;
 $drawerCartWidthLarge: 400px; // small-up width
-$drawerHeaderHeight: 80px;
+$drawerHeaderHeight: 60px;
 $drawerCartFooterHeight: 130px; // default, overwritten by JS
 $colorDrawers: {{ settings.color_drawer_background }};
 $colorDrawerBorder: {{ settings.color_drawer_border }};
@@ -1550,6 +1550,7 @@ a {
 .rte a,
 .text-link {
   color: $colorLink;
+  font-weight: 500;
 
   &:hover {
     color: $colorLinkHover;
@@ -1558,7 +1559,7 @@ a {
 
 .return-link {
   @include accentFontStack;
-  font-size: em(12px);
+  font-size: em(14px);
   color: $cinza1;
 }
 
@@ -2793,7 +2794,7 @@ $slick-dot-character: '\2022';
 
   @include at-query($max, $medium) {
     img {
-      max-height: $drawerHeaderHeight - ($gutter / 2); // account for border-box height
+      max-height: $drawerHeaderHeight / 2 + $gutter / 2; // account for border-box height
       margin-top: $gutter / 3;
       margin-bottom: $gutter / 3;
     }
@@ -2911,6 +2912,14 @@ $slick-dot-character: '\2022';
   @include accentFontStack;
   @include transition(color 0.2s);
   font-size: em(14px);
+}
+
+.site-nav--mobile.text-right {
+  margin: 0;
+}
+
+.site-nav--mobile .site-nav__link.cart-link {
+  padding: 0;
 }
 
 .site-nav--has-dropdown {
@@ -3383,8 +3392,12 @@ button.mfp-arrow {
 
 .grid-product__meta {
   position: relative;
-  display: block;
-  padding: 13px 0;
+  padding: 10px 0;
+  min-height: 107px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
 }
 
 .grid-product__price-wrap {
@@ -3396,8 +3409,13 @@ button.mfp-arrow {
 }
 
 .grid-product__title {
-  @include bodyFontItalic;
-  font-size: em(floor($baseFontSize * 1.25));  //20px based on 16px base font size
+  // @include bodyFontItalic;
+  // font-size: em(floor($baseFontSize * 1.25));  //20px based on 16px base font size
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  display: block;
+  margin: 0.5rem 0;
 }
 
 .grid-product__vendor {
@@ -3410,6 +3428,7 @@ button.mfp-arrow {
 .grid-product__price {
   @include accentFontStack;
   font-size: em(14px);
+  font-weight: 300;
 }
 
 .grid-product__price-min {
@@ -4268,17 +4287,6 @@ button.mfp-arrow {
   background-color: $bege2;
 }
 
-body:not(.template-index) {
-
-  #shopify-section-header {
-    background: $bege0;
-
-    .site-header {
-      padding-top: 0;
-    }
-  }
-  
-}
 
 .template-index {
   .hero__slide .hero__title, .hero--adapt .hero__title {
@@ -4441,6 +4449,7 @@ body:not(.template-index) {
   #shopify-section-conheca-labe {
     a, .text-link {
       color: $bege3;
+      font-weight: 500;
     
       &:hover {
         color: $bege2;
@@ -4647,6 +4656,10 @@ body:not(.template-index) {
 }
 .blog-articles .article-image {
   text-align: center;
+
+  @include at-query($min, $small) {
+    padding: 0 5px;
+  }
 }
 
 .blog-articles .article__featured-image-link {
@@ -4655,12 +4668,15 @@ body:not(.template-index) {
 
 .blog-articles .article-content {
   text-align: center;
+
+  @include at-query($min, $small) {
+    padding: 0 10px;
+  }
 }
 
 .blog-articles .article-title {
     text-transform: initial;
     letter-spacing: initial;
-    line-height: 1.25;
     font-size: 22px;
 }
 
@@ -4713,4 +4729,51 @@ body:not(.template-index) {
 
 #shopify-section-featured-products .grid-product__image-link {
   background: #ffffff;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  padding: 60px 0;
+
+  &>span {
+    display: block;
+    min-width: 40px;
+    margin: 0 10px;
+    font-size: 1.25em;
+    background: $bege1;
+    border: 2px solid $bege1;
+  }
+
+  .page.current {
+    background: #ffffff;
+    color: $cinza3;
+  }
+}
+
+
+.header-wrapper {
+  background: $bege0;
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+
+  .site-header {
+    padding-top: 0;
+  }
+}
+
+.template-index:not(.header-sticky) .header-wrapper {
+  background: transparent;
+}
+
+.header-sticky .header-wrapper {
+  background-color: rgba($bege0, 0.95);
+  transition: all .45s ease, height .75s ease;
+  -webkit-transition: all .45s ease, height .75s ease;
+  -o-transition: all .45s ease, height .75s ease;
+}
+
+body:not(.template-index) .page-container {
+  padding-top: 60px;
 }

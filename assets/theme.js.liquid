@@ -3682,4 +3682,14 @@ $(window).load(function () {
     itemSelector: '.masonry .grid__item',
     columnWidth: '.masonry .large--one-third'
   });
+  if ($(this).scrollTop() > 60) {
+    $('body').addClass('header-sticky');
+  }
+});
+$(window).scroll(function () {
+  if ($(this).scrollTop() > 60) {
+    $('body').addClass('header-sticky');
+  } else {
+    $('body').removeClass('header-sticky');
+  }
 });

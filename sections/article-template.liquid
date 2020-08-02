@@ -135,11 +135,40 @@
 </div>
 
 <hr class="hr--medium hr--clear">
+
+{%- assign collection_count = 0 -%}
+{%- assign isEmpty = true -%}
+{% comment %}
+  Count how many collections we have to show
+{% endcomment %}
+{%- assign collection_count = section.blocks.size -%}
+
+{% if collection_count > 0 %}
+  {%- assign isEmpty = false -%}
+  {%- assign collection_index = 0 -%}
+  {%- assign divisible_by_three = collection_count | modulo: 3 -%}
+  {%- assign divisible_by_two = collection_count | modulo: 2 -%}
+
+  <div class="section-header text-center">
+    <h2>Confira Nossos Produtos</h2>
+    <hr class="hr--small">
+  </div>
+
+  <div class="grid collection-grid">
+    {% for block in section.blocks %}
+      {%- assign collection = collections[block.settings.collection] -%}
+      {%- assign collection_handle = collection.handle -%}
+      {%- assign collection_index = forloop.index -%}
+      {% include 'collection-grid-collage' %}
+    {% endfor %}
+  </div>
+{% endif %}
+
+<hr class="hr--medium hr--clear">
 <div class="text-center">
-  <a href="{{ blog.url }}" class="return-link">&larr; {{ 'blogs.article.back_to_blog' | t: title: blog.title }}</a>
+  <a href="{{ blog.url }}" class="return-link">&larr; Voltar para o blog</a>
 </div>
-
-
+<hr class="hr--small hr--clear">
 
 {% schema %}
 {
@@ -172,6 +201,41 @@
         "zh-TW": "顯示社群分享按鈕"
       },
       "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": {
+        "de": "Kategorie",
+        "en": "Collection",
+        "es": "colección",
+        "fr": "Collection",
+        "it": "collezione",
+        "ja": "コレクション",
+        "nl": "Collectie",
+        "pt-BR": "Coleção",
+        "zh-CN": "收藏",
+        "zh-TW": "商品系列"
+      },
+      "settings": [
+        {
+          "label": {
+            "de": "Kategorie",
+            "en": "Collection",
+            "es": "colección",
+            "fr": "Collection",
+            "it": "collezione",
+            "ja": "コレクション",
+            "nl": "Collectie",
+            "pt-BR": "Coleção",
+            "zh-CN": "收藏",
+            "zh-TW": "商品系列"
+          },
+          "id": "collection",
+          "type": "collection"
+        }
+      ]
     }
   ]
 }
