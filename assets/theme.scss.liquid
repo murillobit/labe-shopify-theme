@@ -4584,13 +4584,25 @@ button.mfp-arrow {
   }
 }
 
-#shopify-section-product-recommendations {
+#shopify-section-product-recommendations, 
+#shopify-section-quem-recebe {
+  margin: 30px 0;
+  padding: 15px 0;
+
   .section-header {
-    margin: 60px 0 30px 0;
+    margin: 30px 0;
 
     h2 {
-      font-size: em(24px);
+      font-size: em(32px);
     }
+  }
+}
+
+#shopify-section-product-recommendations {
+  background: $bege0;
+
+  hr {
+    border-color: $bege2;
   }
 }
 
@@ -4754,7 +4766,6 @@ button.mfp-arrow {
   }
 }
 
-
 .header-wrapper {
   background: $bege0;
   position: fixed;
@@ -4795,4 +4806,9 @@ body:not(.template-index) .page-container {
 
 img {
     height: auto;
+}
+
+#section-testimonials .slick-list:focus {
+  outline: none;
+  border-radius: 0;
 }

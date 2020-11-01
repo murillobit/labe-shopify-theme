@@ -1,0 +1,98 @@
+<div id="section-testimonials" class="testimonials" data-section-id="{{ section.id }}">
+  <div class="wrapper">
+    <div class="section-header text-center">
+      <h2 class="section-header__title"> {{ section.settings.section-title }} </h2>
+      <hr class="hr--small">
+      {% if section.settings.section-subtitle %}
+        <p> {{ section.settings.section-subtitle }} </p>
+      {% endif %}
+    </div>
+    {%- if section.blocks.size > 0 -%}
+      <div class="section-carousel">
+      {%- for block in section.blocks -%}
+        <div class="carousel__slide slide--{{ block.id }}" {{ block.shopify_attributes }}>
+            {%- assign img_url = block.settings.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+            <img class="carousel__image carousel__image--{{ block.id }} lazyload fade-in{% unless forloop.first == true %} lazypreload{% endunless %}"
+              {%- if forloop.first == true -%}
+                src="{{ block.settings.image | img_url: '300x' }}"
+              {%- endif -%}
+              data-src="{{ img_url }}"
+              data-widths="[540, 720, 900, 1080, 1296, 1512, 1728, 1944, 2048, 4472]"
+              data-aspectratio="{{ block.settings.image.aspect_ratio }}"
+              data-sizes="auto"
+              data-parent-fit="cover"
+              alt="{{ block.settings.image.alt | escape }}">
+        </div>
+      {%- endfor -%}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "settings": [
+    {
+      "id": "section-title",
+      "type": "text",
+      "label": "Heading",
+      "default": "Title"
+    },
+    {
+      "id": "section-subtitle",
+      "type": "text",
+      "label": "Subheading",
+      "default": "Subtitle"
+    }
+  ],
+  "max_blocks": 15,
+  "blocks": [
+    {
+      "type": "slide",
+      "name": {
+        "de": "Folie",
+        "en": "Slide",
+        "es": "Diapositiva",
+        "fr": "Diapositive",
+        "it": "Slide",
+        "ja": "スライド",
+        "nl": "Dia",
+        "pt-BR": "Slide",
+        "zh-CN": "幻灯片",
+        "zh-TW": "投影片"
+      },
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": {
+            "de": "Bild",
+            "en": "Image",
+            "es": "Imagen",
+            "fr": "Image",
+            "it": "Immagine",
+            "ja": "画像",
+            "nl": "Afbeelding",
+            "pt-BR": "Imagem",
+            "zh-CN": "图片",
+            "zh-TW": "圖片"
+          }
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials Carousel",
+      "category": "Testimonials"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

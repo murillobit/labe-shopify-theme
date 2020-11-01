@@ -3641,6 +3641,34 @@ $(document).ready(function() {
     $('.qty-error').addClass('hide');
   });
 
+  $('.section-carousel').slick({
+    infinite: true,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+    autoplay: true,
+    autoplaySpeed: 6000,
+    arrows: false,
+    dots: false,
+    responsive: [
+      {
+        breakpoint: 767,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2
+        }
+      },
+      {
+        breakpoint: 590,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
+  });
+
+  $('.wrapper #shopify-section-quem-recebe .wrapper').removeClass('wrapper');
+
 });
 
 function showSoldOutForm () {
