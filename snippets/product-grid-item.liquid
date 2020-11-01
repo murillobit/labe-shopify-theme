@@ -31,6 +31,24 @@
 {% endif %}
 
 {% assign sold_out = false %}
+{% for collection in product.collections %}
+  {% if collection.title == "BE"  %}
+    {% unless product.available %}
+      {% assign sold_out = true %}
+    {% endunless %}
+  {% endif %}
+{% endfor %}
+
+{% assign total_stock = 0 %}
+{%for variant in product.variants %}
+{% capture i %}{{ total_stock | plus:variant.inventory_quantity }}{%endcapture%}
+{% assign total_stock = i | plus:0 %}
+{%endfor%}
+
+{% assign last_units = false %}
+{% if total_stock <= 2 and total_stock > 0 %}
+  {% assign last_units = true %}
+{% endif %}
 
 {% capture img_id_class %}ProductImage-{{ product.featured_image.id }}{% endcapture %}
 {% capture img_wrapper_id %}ProductImageWrapper-{{ product.featured_image.id }}{% endcapture %}
@@ -90,6 +108,10 @@
         <div class="grid-product__sold-out">
           <p>{{ 'products.product.sold_out_html' | t }}</p>
         </div>
+      {% elsif last_units %}
+        <a class="grid-product__last-units" href="{{ product.url | within: collection }}">
+          <p>Últimas unidades!</p>
+        </a>
       {% elsif on_sale %}
         <div class="grid-product__on-sale">
           {% capture saved_amount %}{{ product.compare_at_price | minus: product.price | money_without_trailing_zeros }}{% endcapture %}

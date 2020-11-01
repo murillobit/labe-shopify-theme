@@ -2149,6 +2149,10 @@ theme.Product = (function() {
       document.getElementById('ProductJson-' + sectionId).innerHTML
     );
 
+    this.soldoutFormEnabled = JSON.parse(
+      document.getElementById('SoldoutFormEnabledJson-' + sectionId).innerHTML
+    );
+
     this.variantsInventory = {};
 
     if ($('#VariantIdsJson-' + sectionId).html() && $('#VariantQuantitiesJson-' + sectionId).html()) {
@@ -2630,7 +2634,7 @@ theme.Product = (function() {
       $(this.selectors.addToCartWrapper).removeClass('hide');
 
       // if current variant has 0 inventory quantity, show order form and hide add to cart button
-      if (this.variantsInventory[variant.id] == 0) {
+      if (this.variantsInventory[variant.id] == 0 && this.soldoutFormEnabled) {
         $(this.selectors.soldOutForm).removeClass('hide');
         $('#sold-out-form .text-primary').removeClass('hide');
         $(this.selectors.addToCartWrapper).addClass('hide');
